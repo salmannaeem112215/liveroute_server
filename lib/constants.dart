@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-const PORT = 9018;
+const PORT = 9020;
 
 const MONGO_CONN_URL =
     "mongodb+srv://salman:1234@uetroute.4hfzd.mongodb.net/routeapp?retryWrites=true&w=majority";
@@ -26,6 +26,9 @@ const ROUTES_WEBSOCKET = "routes-ws/";
 const TRACKINGS_WEBSOCKET = "tracking-ws/";
 const STOPS_WEBSOCKET = "stops-ws/";
 const PATHS_WEBSOCKET = "paths-ws/";
+
+// login endpoints
+const AUTH_REST_API = "auth/";
 
 const user = "salman";
 // q^7]<C(2hOJmbE|b

@@ -1,14 +1,15 @@
 import 'dart:io';
 
 import 'package:liveroute/header_files.dart';
+import 'package:liveroute/rest/contacts_rest_api.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 void main(List<String> arguments) async {
   // Connect and load collection
-
   final db = await Db.create(MONGO_CONN_URL);
   await db.open();
 
+  // WEBSOCKETS
   BusesSocketApi.collection = db.collection(BUSES_COLLECTION);
   RoutesSocketApi.collection = db.collection(ROUTES_COLLECTION);
   MembersSocketApi.collection = db.collection(MEMBERS_COLLECTION);
@@ -19,10 +20,16 @@ void main(List<String> arguments) async {
   StopsSocketApi.collection = db.collection(STOPS_COLLECTION);
   PathsSocketApi.collection = db.collection(PATHS_COLLECTION);
 
+  // Rest API
+  AuthRestApi.admins = db.collection(ADMINS_COLLECTION);
+  AuthRestApi.drivers = db.collection(DRIVERS_COLLECTION);
+  AuthRestApi.members = db.collection(MEMBERS_COLLECTION);
+
   // Create server
   final app = Router();
 
   // Create routes
+  // WEBSOCKETS
   app.mount('/$TRACKINGS_WEBSOCKET', TrackingsSocketApi().router);
   app.mount('/$BUSES_WEBSOCKET', BusesSocketApi().router);
   app.mount('/$ROUTES_WEBSOCKET', RoutesSocketApi().router);
@@ -32,6 +39,8 @@ void main(List<String> arguments) async {
   app.mount('/$PATHS_WEBSOCKET', PathsSocketApi().router);
   app.mount('/$STOPS_WEBSOCKET', StopsSocketApi().router);
   app.mount('/$TRACKS_WEBSOCKET', TracksSocketApi().router);
+  //REST API
+  app.mount('/$AUTH_REST_API', AuthRestApi().router);
 
   // Listen for incoming connections
   final handler = Pipeline()
