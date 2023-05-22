@@ -31,5 +31,4 @@ const PATHS_WEBSOCKET = "paths-ws/";
 const AUTH_REST_API = "auth/";
 
 const user = "salman";
-// q^7]<C(2hOJmbE|b
 const passsword = "1234";
